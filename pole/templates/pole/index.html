@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css'%}" />
+
+{% if user_list %}
+<ul>
+	{% for user in user_list %}
+	<li>{{user.user_name}}</li>
+	{% endfor %}
+</ul>
+{% else %}
+<p>No users are available.</p>
+{% endif %}
