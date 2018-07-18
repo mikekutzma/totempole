@@ -4,22 +4,25 @@ from django.db import models
 from django.utils import timezone
 
 class User(models.Model):
-	user_name = models.CharField(max_length=200)
+	name = models.CharField(max_length=200)
 	creation_date = models.DateTimeField('date created')
-	ranking = models.IntegerField()
+	ranking = models.PositiveIntegerField(default=0,blank=False,null=False)
+
+	class Meta(object):
+		ordering = ['ranking']
 
 	def __str__(self):
-		return self.user_name
+		return self.name
 
 
 class Change(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
-	from_rank = models.IntegerField()
-	to_rank = models.IntegerField()
+	from_rank = models.PositiveIntegerField(default=0,blank=False,null=False)
+	to_rank = models.PositiveIntegerField(default=1,blank=False,null=False)
 	creation_date = models.DateTimeField('date created')
 
 	def __str__(self):
-		return "{} of {} from {} to {}.".format(self.get_changeword('noun').capitalize(),self.user.user_name,
+		return "{} of {} from {} to {}.".format(self.get_changeword('noun').capitalize(),self.user.name,
 			self.from_rank,self.to_rank)
 
 	def get_changeword(self,tense):
